@@ -198,6 +198,63 @@ export default function Home() {
     } catch (err) { showNotification(err.message, "error"); }
   };
 
+  const exportToDevice = async (format) => {
+    setShowDownloadMenu(false);
+    showNotification("Generating explicit export payload...");
+    try {
+      const actualSvg = mermaidProxyRef.current?.getSvgContent();
+      let content = "";
+      let mimeType = "text/plain";
+      
+      if (format === "mmd") {
+        content = code;
+        mimeType = "text/plain";
+      } else if (format === "svg") {
+        if (!actualSvg) throw new Error("No SVG rendered");
+        content = actualSvg;
+        mimeType = "image/svg+xml";
+      } else if (format === "pdf" || format === "png") {
+        if (!actualSvg) throw new Error("No SVG rendered");
+        const base64Png = await renderSvgToPngBase64(actualSvg);
+        if (format === "pdf") {
+          const pdf = new jsPDF({ orientation: "landscape" });
+          pdf.addImage(base64Png, 'PNG', 10, 10, 277, 190);
+          content = pdf.output("arraybuffer");
+          mimeType = "application/pdf";
+        } else {
+          const byteString = atob(base64Png.split(',')[1]);
+          const ab = new ArrayBuffer(byteString.length);
+          const ia = new Uint8Array(ab);
+          for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
+          content = ab;
+          mimeType = "image/png";
+        }
+      }
+
+      if (window.showSaveFilePicker) {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: `${currentFileName.replace(/[^a-z0-9_-]/gi, '_')}.${format}`,
+          types: [{ description: `Diagram Document`, accept: { [mimeType]: [`.${format}`] } }]
+        });
+        const writable = await handle.createWritable();
+        await writable.write(content);
+        await writable.close();
+        showNotification("Export secured physically to your OS directory!");
+      } else {
+        const blob = new Blob([content], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${currentFileName.replace(/[^a-z0-9_-]/gi, '_')}.${format}`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showNotification("Fallback Download successful");
+      }
+    } catch (e) {
+      if (e.name !== 'AbortError') showNotification(e.message, "error");
+    }
+  };
+
   const renderSvgToPngBase64 = (svgString) => {
     return new Promise((resolve, reject) => {
       const canvas = document.createElement("canvas");
@@ -371,13 +428,17 @@ export default function Home() {
                  
                  <div className="relative-wrapper">
                    <button className="btn btn-primary" onClick={() => setShowDownloadMenu(!showDownloadMenu)}>
-                      Export Engine <ChevronDown size={14} />
+                      Export Options <ChevronDown size={14} />
                    </button>
                    {showDownloadMenu && (
-                     <div className="download-menu" style={{minWidth:"220px"}}>
-                       <button className="download-option" onClick={() => saveToWorkspace("mmd", currentFileName)}><Check size={14} color="#3498db" /> Cache Local Project</button>
-                       <button className="download-option" onClick={() => saveToWorkspace("pdf")}><Download size={14} color="#e74c3c" /> Publish Blueprint PDF</button>
-                       <button className="download-option" onClick={() => saveToWorkspace("svg")}><ExternalLink size={14} color="var(--green)" /> Scalable Vector (SVG)</button>
+                     <div className="download-menu" style={{minWidth:"280px"}}>
+                       <p style={{fontSize: "0.75rem", padding: "0.2rem 1rem", color: "var(--text-muted)"}}>Docker Internal Network</p>
+                       <button className="download-option" onClick={() => saveToWorkspace("mmd", currentFileName)}><Check size={14} color="#3498db" /> Cache to Workspace Node</button>
+                       <div style={{borderBottom: "1px solid var(--panel-border)", margin: "0.2rem 0"}}></div>
+                       <p style={{fontSize: "0.75rem", padding: "0.2rem 1rem", color: "var(--text-muted)"}}>OS Physical Drive</p>
+                       <button className="download-option" onClick={() => exportToDevice("pdf")}><Download size={14} color="#e74c3c" /> Export Blueprint PDF</button>
+                       <button className="download-option" onClick={() => exportToDevice("svg")}><ExternalLink size={14} color="var(--green)" /> Export Scalable SVG</button>
+                       <button className="download-option" onClick={() => exportToDevice("png")}><ExternalLink size={14} color="var(--accent)" /> Export Raster PNG</button>
                      </div>
                    )}
                  </div>
@@ -387,10 +448,10 @@ export default function Home() {
           
           {zenMode && (
              <div style={{ position: "absolute", top: "1rem", right: "2rem", zIndex: 100, display: "flex", gap: "1rem" }}>
-               <button className="btn btn-primary" onClick={() => saveToWorkspace("mmd", currentFileName)} title="Quick Save Data">
-                 <Check size={16}/> Save Native Protocol
+               <button className="btn btn-primary" onClick={() => saveToWorkspace("mmd", currentFileName)} title="Quick Save Data to Internal Docker Node">
+                 <Check size={16}/> Cache Internal
                </button>
-               <button className="btn" style={{background: "var(--panel-bg)"}} onClick={() => saveToWorkspace("pdf")}>Export PDF</button>
+               <button className="btn" style={{background: "var(--panel-bg)"}} onClick={() => exportToDevice("pdf")}>Export OS PDF</button>
              </div>
           )}
 
