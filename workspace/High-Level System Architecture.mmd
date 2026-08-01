@@ -1,0 +1,21 @@
+graph TD
+    subgraph "Track 1: TAM Extraction -- Weekly CRON"
+        APOLLO[("Apollo.io API")] -->|"Persona + Industry Query"| INGEST["Data Ingestion Service"]
+        INGEST -->|"Assign Base Score 50"| CRM[("Master CRM / Database")]
+    end
+
+    subgraph "Track 2: Intent Monitoring -- Daily CRON"
+        CT[("ClinicalTrials.gov API v2")] -->|"Phase II/III Surges"| AGG["Data Aggregator"]
+        CB[("Crunchbase API")] -->|"M&A / PE Funding"| AGG
+        NEWS[("News API / PR Newswire RSS")] -->|"Industry Events"| AGG
+        LI[("LinkedIn / CRM History")] -->|"Network Proximity"| AGG
+        AGG --> LLM{"LLM Reasoning Agent"}
+        LLM -->|"Generate Fit Note + Score Multiplier"| ENRICH["Score Update Service"]
+        ENRICH -->|"Update Existing Record"| CRM
+    end
+
+    subgraph "Track 3: Output & Alerts"
+        CRM -->|"Score >= 80"| ALERT["Sales Team Alert -- Slack / Email"]
+        CRM -->|"All Leads"| CSV["CSV Export -- CRM-Compatible"]
+        CRM -->|"Weekly"| DASH["Dashboard / Reporting"]
+    end

@@ -1,0 +1,32 @@
+flowchart TB
+    subgraph VAPI["VAPI Orchestration"]
+        direction TB
+        Input["Caller speaks Hindi"] --> STT
+
+        subgraph STT["STT Providers (pick one)"]
+            DG["Deepgram Nova-2/3<br/>✅ Hindi, English<br/>⚠️ Limited Gujarati/Marathi"]
+            GL["Gladia<br/>✅ Auto language detection<br/>✅ Hindi + Indic languages"]
+            GO["Google STT<br/>✅ All 4 languages<br/>✅ 125+ languages"]
+        end
+
+        STT --> LLM["LLM (multilingual)<br/>Gemini / GPT / Claude<br/>✅ All understand Hindi"]
+
+        LLM --> TTS
+
+        subgraph TTS["TTS Providers (pick one)"]
+            EL["ElevenLabs<br/>✅ Hindi, English<br/>⚠️ Limited Gujarati/Marathi"]
+            AZ["Azure TTS<br/>✅ All 4 languages<br/>✅ hi-IN, en-IN, gu-IN, mr-IN"]
+            PH["PlayHT / Google TTS<br/>✅ Multiple Hindi voices"]
+        end
+    end
+
+    style VAPI fill:#0d1117,stroke:#30363d,color:#e6edf3
+    style STT fill:#161b22,stroke:#21262d,color:#e6edf3
+    style TTS fill:#161b22,stroke:#21262d,color:#e6edf3
+    style DG fill:#1f6feb,stroke:#388bfd,color:#fff
+    style GL fill:#238636,stroke:#2ea043,color:#fff
+    style GO fill:#238636,stroke:#2ea043,color:#fff
+    style EL fill:#8957e5,stroke:#a371f7,color:#fff
+    style AZ fill:#238636,stroke:#2ea043,color:#fff
+    style PH fill:#1f6feb,stroke:#388bfd,color:#fff
+    style LLM fill:#da3633,stroke:#f85149,color:#fff

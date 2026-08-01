@@ -3,7 +3,7 @@ services:
   opendiagram-architect:
     build: .
     ports:
-      - "3001:3000"
+      - "${APP_PORT:-3001}:3000"
     volumes:
       # Maps your local host 'workspace' directory strictly into the Docker instance
       # This guarantees that files saved via the internal Docker API are physically accessible natively on your PC

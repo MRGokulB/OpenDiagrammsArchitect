@@ -1,0 +1,10 @@
+ref_id,title,publisher,url,used_for
+PUB-FDA-001,Device Approvals and Clearances,FDA,https://www.fda.gov/medical-devices/products-and-medical-procedures/device-approvals-and-clearances,General device authorization context
+PUB-FDA-002,510(k) Clearances,FDA,https://www.fda.gov/510k-clearances,510(k) pathway context
+PUB-FDA-003,CDRH 2024 Annual Report,FDA,https://www.fda.gov/about-fda/cdrh-reports/cdrh-2024-annual-report,Medical device regulatory operating context
+PUB-FDA-004,Part 11 Electronic Records and Electronic Signatures Scope and Application,FDA,https://www.fda.gov/regulatory-information/search-fda-guidance-documents/part-11-electronic-records-electronic-signatures-scope-and-application,Part 11 controls context
+PUB-CMS-001,National Health Expenditure Historical Data,CMS,https://www.cms.gov/data-research/statistics-trends-and-reports/national-health-expenditure-data/historical,Health care market context
+PUB-CMS-002,National Health Expenditures Infographic,CMS,https://www.cms.gov/files/document/nhe-infographic.pdf,2024 health spending summary
+PUB-CMS-003,National Health Expenditures 2024 Highlights,CMS,https://edit.cms.gov/files/document/highlights.pdf,2024 health spending figures
+PUB-MSFT-001,FDA CFR Title 21 Part 11 Compliance Offering,Microsoft Learn,https://learn.microsoft.com/en-us/compliance/regulatory/offering-fda-cfr-title-21-part-11,Cloud compliance context
+

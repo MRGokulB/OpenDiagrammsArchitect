@@ -1,0 +1,48 @@
+ flowchart TB
+    subgraph EXT["External Data Sources"]
+        APOLLO["Apollo.io API<br/>$49/mo — people search + email unlock"]
+        OPENFDA["openFDA API<br/>free — 510k submissions + device detail"]
+        CTGOV["ClinicalTrials.gov API<br/>free — trial registrations"]
+        RSS["RSS Feeds free<br/>FierceBiotech / MedTech Dive / BioPharma Dive"]
+        LIJOBS["LinkedIn Jobs<br/>guest search, free"]
+        ANTH["Anthropic API<br/>~$15/mo — Haiku/Sonnet routing"]
+    end
+
+    subgraph SIDECAR["The Eyes — Python Sidecar :8100 (FastAPI)"]
+        NEWSPY["news.py → RSS XML parser"]
+        JOBSPY["jobs.py → guest job scraper + dedupe"]
+    end
+
+    subgraph BRAIN["The Brain — Node.js/Express :3002"]
+        subgraph PIPELINE["Lead Pipeline"]
+            DISC["leadDiscoveryService<br/>search → unlock → upsert → link → score"]
+            SCORE["leadScoringService<br/>FDA-weighted rubric + AI tier/reason"]
+            OUTREACH["outreachService<br/>3-step sequences, HUMAN_REVIEW gated"]
+        end
+        subgraph SIGNALS["Signal Layer (cron + on-demand)"]
+            FDASCRAPE["fdaScraperService cron 6h"]
+            CTSCRAPE["clinicalTrialsService cron 6h"]
+            SIGSCAN["signalScanService<br/>persists job/news scans as triggers"]
+        end
+        AGENT["agentService — Claude tool-use loop<br/>12 tools, budget caps, legacy fallback"]
+        DB[("SQLite via Prisma<br/>10 leads · 48 companies · 83 triggers")]
+        UI["Dashboard UI<br/>leads / triggers / review / chat"]
+    end
+
+    APOLLO --> DISC
+    ANTH --> AGENT
+    OPENFDA --> FDASCRAPE
+    OPENFDA -->|"enrich_fda_detail"| AGENT
+    CTGOV --> CTSCRAPE
+    RSS --> NEWSPY
+    LIJOBS --> JOBSPY
+    NEWSPY -->|"scan_news_triggers"| SIGSCAN
+    JOBSPY -->|"scan_job_intent"| SIGSCAN
+    DISC --> SCORE --> DB
+    SIGSCAN --> DB
+    FDASCRAPE --> DB
+    CTSCRAPE --> DB
+    AGENT --> DISC
+    AGENT --> OUTREACH
+    DB --> UI
+    OUTREACH -->|"human approval"| UI

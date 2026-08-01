@@ -1,0 +1,10 @@
+account,account_type,region,stage,expected_2026_revenue_usd,probability_percent,contracted,notes
+Hanse Neurovascular GmbH,Distributor,EU,Contracted expansion,1450000,85,Yes,Minimum purchase commitment active through 2026-12-31
+St. Brigid Research Hospital,Evaluation site,Ireland,Active evaluation,620000,75,Yes,Training and evaluation purchase order signed
+Pacific Stroke Institute,Evaluation site,US,Pre-clearance research,410000,45,No,Revenue limited to training and non-commercial research materials
+AsterMed Trading,Distributor,Middle East,LOI,980000,55,No,Distributor diligence in progress
+North Coast Interventional,Hospital network,US,Clinical study site,360000,40,No,Dependent on pivotal-study activation
+Alpine Neuro Center,Hospital,Switzerland,Contract review,530000,65,No,Pending procurement approval
+VectorCath OEM,Strategic partner,US,Engineering services,720000,70,No,Non-recurring engineering proposal
+MedBridge Education,Training partner,US,Contracted,240000,90,Yes,Simulation kits and physician training modules
+

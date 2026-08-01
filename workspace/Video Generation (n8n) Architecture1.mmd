@@ -1,0 +1,26 @@
+graph TD
+    classDef input fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef ai fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef logic fill:#bfb,stroke:#333,stroke-width:2px;
+    classDef db fill:#fbb,stroke:#333,stroke-width:2px;
+
+    A[User Upload<br/>PDF/Images/Text]:::input --> B[n8n Webhook Trigger]:::logic
+    
+    B --> C[AI Vision Analysis<br/>GPT-4.1-mini]:::ai
+    C --> D[Storyboard Generator]:::ai
+    
+    D --> E[Split Scenes into Batches]:::logic
+    E --> F{Does Scene<br/>Have an Image?}:::logic
+    
+    F -->|Yes| G[Image-to-Video<br/>Fal AI]:::ai
+    F -->|No| H[Text-to-Video<br/>Fal AI]:::ai
+    
+    G --> I[Merge Scenes & Text-to-Speech]:::logic
+    H --> I
+    
+    I --> J[Final MP4 Compiled]:::core
+    
+    K[(Firestore Database)]:::db -.->|1. Parsing| B
+    K -.->|2. Storyboarding| D
+    K -.->|3. Rendering| E
+    K -.->|4. Completed| J

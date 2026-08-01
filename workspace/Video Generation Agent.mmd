@@ -1,0 +1,17 @@
+graph TD
+    classDef step fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef ai fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+    classDef result fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
+
+    A[1. You Upload a File<br/>PDF, Image, or Text]:::step --> B[2. The AI Reads & Understands It]:::ai
+    
+    B --> C[3. Plan the Video<br/>Create a Scene-by-Scene Storyboard]:::ai
+    
+    C --> D{4. AI Animates the Scenes}:::ai
+    D -->|If you gave it a picture| E[Turn Picture into Video]:::ai
+    D -->|If it's just text| F[Create Video from Scratch]:::ai
+    
+    E --> G[5. Add Voiceover & Stitch Scenes Together]:::step
+    F --> G
+    
+    G --> H[6. Final Polished Video is Ready!]:::result

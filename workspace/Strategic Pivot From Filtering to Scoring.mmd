@@ -1,0 +1,19 @@
+graph LR
+    subgraph "Current Model: Hard Gate"
+        direction TB
+        A1["Lead Found"] --> B1{"Has FDA Filing?"}
+        B1 -->|"No"| C1["DELETED"]
+        B1 -->|"Yes"| D1["Returned to Sales"]
+    end
+
+    subgraph "Target Model: Soft Score"
+        direction TB
+        A2["Lead Found"] --> B2{"Matches ICP?"}
+        B2 -->|"No"| C2["Excluded"]
+        B2 -->|"Yes"| D2["Ingested at Base Score 50"]
+        D2 --> E2{"Has Intent Trigger?"}
+        E2 -->|"Yes"| F2["Bonus Points Applied"]
+        E2 -->|"No"| G2["Retained at Score 50"]
+        F2 --> H2["Ranked and Returned to Sales"]
+        G2 --> H2
+    end

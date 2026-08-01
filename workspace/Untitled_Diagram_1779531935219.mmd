@@ -1,0 +1,132 @@
+flowchart TB
+
+%% =========================
+%% New Lead Generation Agent
+%% =========================
+subgraph LEAD_AGENT["New: Lead Generation Agent"]
+    LG["lead-generation-service<br/>(Express - Port 3002)"]
+    TD["trigger-detection-service<br/>(FastAPI - Port 9940)"]
+
+    AUTH1["X-Service-Auth"]
+
+    LG --> AUTH1
+    AUTH1 --> TD
+end
+
+%% =========================
+%% External APIs
+%% =========================
+subgraph EXTERNAL["External APIs"]
+    HUB["HubSpot"]
+    SMART["Smartlead"]
+    APOLLO["Apollo.io"]
+    HUNTER["Hunter.io"]
+    CRUNCH["Crunchbase"]
+    CTGOV["ClinicalTrials.gov v2"]
+    OPENFDA["openFDA"]
+    LLMAPI["Claude / Gemini / OpenAI"]
+end
+
+%% =========================
+%% Existing SAAS OPA Platform
+%% =========================
+subgraph PLATFORM["Existing SAAS OPA Platform"]
+
+    OPA["OPA<br/>(Port 8181)"]
+    REDIS["Redis 7<br/>(Port 6379)"]
+
+    CONNECTOR["connector-service-saas<br/>(Express - Port 3001)"]
+
+    CTS["clinical-trial-service<br/>(FastAPI - Port 9934)"]
+
+    ORCH["LLM Orchestrator<br/>(FastAPI - Port 8000)"]
+
+    FRONTEND["frontend-saas<br/>(React+Vite - Port 5173)"]
+
+    POSTGRES["PostgreSQL 16<br/>(Port 5432)"]
+
+    EMBED["embedding-service-saas<br/>(FastAPI - Port 8080)"]
+
+    BACKEND["backend-saas<br/>(Express - Port 4000)"]
+
+    API_ROUTE["/api/lead-gen/*"]
+
+    API_ROUTE --> BACKEND
+end
+
+%% =========================
+%% Security Labels
+%% =========================
+INTERNALSECRET["X-Internal-Secret"]
+SERVICEAUTH["X-Service-Auth"]
+CB["Circuit Breaker"]
+
+%% =========================
+%% Lead Service Connections
+%% =========================
+LG --> HUB
+LG --> SMART
+LG --> APOLLO
+LG --> HUNTER
+LG --> CRUNCH
+LG --> CTGOV
+LG --> OPENFDA
+LG --> LLMAPI
+
+TD --> CTGOV
+TD --> OPENFDA
+
+%% =========================
+%% Existing Platform Connections
+%% =========================
+LG --> CONNECTOR
+LG --> CTS
+LG --> ORCH
+LG --> FRONTEND
+LG --> POSTGRES
+LG --> EMBED
+
+%% =========================
+%% Shared Infra Connections
+%% =========================
+OPA --> CONNECTOR
+REDIS --> CONNECTOR
+
+FRONTEND --> BACKEND
+
+ORCH --> LLMAPI
+
+CTS --> CTGOV
+
+EMBED --> POSTGRES
+
+%% =========================
+%% Security Flow
+%% =========================
+INTERNALSECRET --> OPA
+SERVICEAUTH --> BACKEND
+
+%% =========================
+%% Reliability Layer
+%% =========================
+CB --> HUB
+CB --> SMART
+CB --> APOLLO
+CB --> HUNTER
+CB --> CRUNCH
+CB --> CTGOV
+CB --> OPENFDA
+CB --> LLMAPI
+
+%% =========================
+%% Styling
+%% =========================
+classDef service fill:#1f8f4e,color:#fff,stroke:#ffffff,stroke-width:1px;
+classDef db fill:#2b2b2b,color:#fff,stroke:#999;
+classDef api fill:#202020,color:#fff,stroke:#777;
+classDef infra fill:#121212,color:#ccc,stroke:#666;
+
+class LG,TD service;
+class POSTGRES,REDIS db;
+class HUB,SMART,APOLLO,HUNTER,CRUNCH,CTGOV,OPENFDA,LLMAPI api;
+class OPA,CONNECTOR,CTS,ORCH,FRONTEND,EMBED,BACKEND infra;

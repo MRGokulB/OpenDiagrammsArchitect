@@ -1,0 +1,102 @@
+ flowchart LR
+    %% =========================
+    %% 1. FIND LEADS
+    %% =========================
+    subgraph A["1. FIND LEADS"]
+        A1["Apollo.io<br/>$79/seat/mo"]
+        A2["ICP contacts<br/>+ enrichment"]
+        A3["Hunter.io<br/>$104/mo"]
+
+        A1 --> A2 --> A3
+    end
+
+    %% =========================
+    %% 2. DETECT TRIGGERS
+    %% =========================
+    subgraph B["2. DETECT TRIGGERS"]
+        B1["ClinicalTrials.gov<br/>FREE"]
+        B2["openFDA API<br/>FREE"]
+        B3["Crunchbase<br/>$99/mo"]
+    end
+
+    %% =========================
+    %% 3. PERSONALIZE
+    %% =========================
+    subgraph C["3. PERSONALIZE"]
+        C1["OpenAI API<br/>~$50/mo"]
+        C2["Claude API<br/>~$150/mo"]
+        C3["Gemini Flash<br/>~$50/mo"]
+    end
+
+    %% =========================
+    %% 4. SEND & TRACK
+    %% =========================
+    subgraph D["4. SEND & TRACK"]
+        D1["Sending Domains<br/>~$60/yr"]
+        D2["Smartlead<br/>$94/mo"]
+    end
+
+    %% =========================
+    %% 5. CRM
+    %% =========================
+    subgraph E["5. CRM"]
+        E1["HubSpot Pro<br/>$200/mo"]
+    end
+
+    %% =========================
+    %% 6. OPERATIONS
+    %% =========================
+    subgraph F["6. OPERATIONS"]
+        F1["Vanta/Drata<br/>$1,250/mo"]
+        F2["LangSmith<br/>$117/mo"]
+        F3["Metabase<br/>$85/mo"]
+    end
+
+    %% =========================
+    %% FLOWS
+    %% =========================
+
+    %% Lead enrichment
+    A3 -- "Verified emails" --> D2
+
+    %% Trigger signals to AI personalization
+    B1 -- "Buying signals" --> C2
+    B1 -- "Buying signals" --> C3
+
+    B2 -- "Buying signals" --> C2
+    B2 -- "Buying signals" --> C3
+
+    B3 -- "Buying signals" --> C2
+    B3 -- "Buying signals" --> C3
+
+    %% Personalized emails to outbound
+    C1 -- "Personalized emails" --> D2
+    C2 -- "Personalized emails" --> D2
+    C3 -- "Personalized emails" --> D2
+
+    %% Sending infrastructure
+    D1 --> D2
+
+    %% Engagement tracking to CRM
+    D2 -- "Engagement data" --> E1
+
+    %% CRM to operations
+    E1 -- "Pipeline data" --> F3
+
+    %% Decision logging
+    A1 -. "All decisions traced" .-> F2
+    A3 -. "All decisions traced" .-> F2
+    D2 -. "All decisions traced" .-> F2
+    E1 -. "All decisions traced" .-> F2
+
+    %% Compliance / governance
+    F2 --> F1
+
+    %% =========================
+    %% STYLING
+    %% =========================
+    classDef dark fill:#1e1e1e,stroke:#cfcfcf,color:#ffffff,stroke-width:1px;
+    classDef section fill:#111111,stroke:#888,color:#fff,stroke-width:1.5px;
+
+    class A,B,C,D,E,F section;
+    class A1,A2,A3,B1,B2,B3,C1,C2,C3,D1,D2,E1,F1,F2,F3 dark;

@@ -1,0 +1,14 @@
+site_id,region,planned_subjects,activation_status,principal_investigator,estimated_activation_date,contract_status,notes
+SITE-001,California,14,Contracting,Dr. Priya Anand,2026-11-15,Redlines open,High-volume comprehensive stroke center
+SITE-002,Texas,12,Budget review,Dr. James Rios,2026-12-01,Budget pending,IRB submission planned after budget lock
+SITE-003,New York,12,Feasibility complete,Dr. Elaine Foster,2027-01-10,Not started,Requires device training lab
+SITE-004,Florida,10,Feasibility complete,Dr. Marco Silva,2027-01-15,Not started,Strong registry experience
+SITE-005,Illinois,14,Contracting,Dr. Hana Qureshi,2026-12-20,Template accepted,Target first enrollment site
+SITE-006,Massachusetts,10,Qualification visit,Dr. Owen Burke,2027-02-01,Not started,Pending site qualification report
+SITE-007,Washington,12,Feasibility complete,Dr. Nina Caldwell,2027-02-10,Not started,Requires training simulator shipment
+SITE-008,Ohio,10,Feasibility complete,Dr. Steven Park,2027-02-15,Not started,Standard contract template requested
+SITE-009,Georgia,12,Pre-feasibility,Dr. Leila Morgan,2027-03-01,Not started,Patient volume confirmation pending
+SITE-010,Arizona,10,Pre-feasibility,Dr. Michael Tan,2027-03-10,Not started,Site interested in investigator meeting
+SITE-011,Colorado,12,Pre-feasibility,Dr. Karen Ito,2027-03-15,Not started,Requires contracting through network office
+SITE-012,Pennsylvania,12,Pre-feasibility,Dr. Ahmed Khan,2027-03-20,Not started,Back-up site
+

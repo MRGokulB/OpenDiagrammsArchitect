@@ -1,0 +1,14 @@
+graph TD
+    classDef step fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef ai fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+    classDef result fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
+
+    A[1. Pick Target Industry<br/>e.g., Medtech]:::step --> B[2. Scan for Customers]:::step
+    B -->|Search Databases & Web News| C[3. Gather Contacts & Company Updates]:::step
+    
+    C --> D{4. AI Evaluates the Lead}:::ai
+    D -->|High Potential| E[5. Mark as 'Hot Lead']:::ai
+    D -->|Low Potential| F[Ignore]
+    
+    E --> G[6. AI Writes Personalized Email<br/>Based on recent company news]:::ai
+    G --> H[7. Ready for Sales Team!]:::result

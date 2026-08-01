@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3001",
     "lint": "eslint"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.5",
+    "@codemirror/search": "^6.7.0",
     "@uiw/react-codemirror": "^4.25.9",
     "groq-sdk": "^1.1.2",
     "jspdf": "^4.2.1",
@@ -18,7 +19,8 @@
     "next": "16.2.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "react-zoom-pan-pinch": "^4.0.3"
+    "react-zoom-pan-pinch": "^4.0.3",
+    "uuid": "^14.0.1"
   },
   "devDependencies": {
     "eslint": "^9",

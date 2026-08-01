@@ -1,0 +1,20 @@
+graph TD
+    classDef config fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef api fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef core fill:#bfb,stroke:#333,stroke-width:2px;
+    classDef db fill:#fbb,stroke:#333,stroke-width:2px;
+
+    A[Vertical Config Module]:::config --> B[Lead Discovery Engine]:::core
+    B -->|Search Query| C(Apollo API):::api
+    C -->|Raw Contacts/Emails| D[Data Enrichment]:::core
+    
+    E[Web Scrapers<br/>FDA / ClinicalTrials]:::api -->|Company Signals| D
+    
+    D --> F{Hybrid Scoring Engine}:::core
+    F -->|AI Model Analysis| G[Ranked Leads<br/>Tier 1, 2, 3]:::core
+    F -->|Deterministic Rules| G
+    
+    G --> H[Context-Aware Outreach]:::core
+    A -.->|Prompt Context| H
+    
+    H -->|Persist Drafts & Intelligence| I[(Intraintel-Prod<br/>Database)]:::db

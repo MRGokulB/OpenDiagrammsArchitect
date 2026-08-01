@@ -11,6 +11,17 @@ const getWorkspaceDir = async () => {
   return workspaceDir;
 };
 
+const resolveWorkspaceFile = (workspaceDir, filename) => {
+  const filePath = path.resolve(workspaceDir, filename);
+  const workspaceRoot = path.resolve(workspaceDir);
+
+  if (!filePath.startsWith(`${workspaceRoot}${path.sep}`)) {
+    throw new Error("Invalid path");
+  }
+
+  return filePath;
+};
+
 // fetching all files
 export async function GET() {
   try {
@@ -71,15 +82,44 @@ export async function DELETE(request) {
     if (!filename) return Response.json({ error: "No file provided" }, { status: 400 });
 
     const workspaceDir = await getWorkspaceDir();
-    const filePath = path.join(workspaceDir, filename);
+    const filePath = resolveWorkspaceFile(workspaceDir, filename);
 
     // Prevent directory traversal
-    if (!filePath.startsWith(workspaceDir)) return Response.json({ error: "Invalid path" }, { status: 403 });
-
     await fs.unlink(filePath);
     return Response.json({ success: true });
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    const status = error.message === "Invalid path" ? 403 : 500;
+    return Response.json({ error: error.message }, { status });
+  }
+}
+
+// Rename workspace file
+export async function PATCH(request) {
+  try {
+    const { from, to } = await request.json();
+    if (!from || !to) return Response.json({ error: "Missing filename" }, { status: 400 });
+
+    const workspaceDir = await getWorkspaceDir();
+    const nextName = to.endsWith(".mmd") ? to : `${to}.mmd`;
+
+    if (path.basename(from) !== from || path.basename(nextName) !== nextName) {
+      return Response.json({ error: "Invalid filename" }, { status: 403 });
+    }
+
+    const oldPath = resolveWorkspaceFile(workspaceDir, from);
+    const newPath = resolveWorkspaceFile(workspaceDir, nextName);
+
+    try {
+      await fs.access(newPath);
+      return Response.json({ error: "A file with that name already exists" }, { status: 409 });
+    } catch {
+      await fs.rename(oldPath, newPath);
+    }
+
+    return Response.json({ success: true, name: nextName });
+  } catch (error) {
+    const status = error.message === "Invalid path" ? 403 : 500;
+    return Response.json({ error: error.message }, { status });
   }
 }
 
@@ -90,14 +130,13 @@ export async function PUT(request) {
     if (!filename) return Response.json({ error: "No file provided" }, { status: 400 });
 
     const workspaceDir = await getWorkspaceDir();
-    const filePath = path.join(workspaceDir, filename);
+    const filePath = resolveWorkspaceFile(workspaceDir, filename);
 
     // Prevent directory traversal
-    if (!filePath.startsWith(workspaceDir)) return Response.json({ error: "Invalid path" }, { status: 403 });
-
     const content = await fs.readFile(filePath, "utf8");
     return Response.json({ content });
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    const status = error.message === "Invalid path" ? 403 : 500;
+    return Response.json({ error: error.message }, { status });
   }
 }

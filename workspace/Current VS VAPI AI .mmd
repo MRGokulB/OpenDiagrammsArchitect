@@ -1,0 +1,32 @@
+flowchart LR
+    subgraph CURRENT["Current Stack"]
+        direction TB
+        EX["📞 Exotel<br/>(Telephony + Call API)"]
+        BR["🖥️ Bridge Server<br/>(~11,500 lines)"]
+        EL["🤖 ElevenLabs<br/>(STT + LLM + TTS)"]
+        EX <--> BR <--> EL
+    end
+
+    subgraph VAPI["VAPI AI (Single Replacement)"]
+        direction TB
+        VT["📞 Telephony<br/>(SIP / Twilio / Free)"]
+        VO["⚙️ Orchestration<br/>(7 ML models)"]
+        VP["🤖 AI Pipeline<br/>(Pluggable STT/LLM/TTS)"]
+        VW["🔔 Webhooks<br/>(~800 lines)"]
+        VT --> VO --> VP --> VW
+    end
+
+    CURRENT ==>|"Migration"| VAPI
+
+    style CURRENT fill:#1a1a2e,stroke:#e94560,color:#e0e0e0
+    style VAPI fill:#0d1117,stroke:#238636,color:#e6edf3
+    style EX fill:#2d6a4f,stroke:#40916c,color:#fff
+    style BR fill:#da3633,stroke:#f85149,color:#fff
+    style EL fill:#7b2cbf,stroke:#9d4edd,color:#fff
+    style VT fill:#238636,stroke:#2ea043,color:#fff
+    style VO fill:#1f6feb,stroke:#388bfd,color:#fff
+    style VP fill:#8957e5,stroke:#a371f7,color:#fff
+    style VW fill:#238636,stroke:#2ea043,color:#fff
+ 
+
+     

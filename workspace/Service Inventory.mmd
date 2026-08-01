@@ -1,0 +1,31 @@
+graph LR
+    subgraph "External APIs -- Data Sources"
+        S1["Apollo.io API"]
+        S2["ClinicalTrials.gov API v2"]
+        S3["Crunchbase API"]
+        S4["NewsCatcher API / PR Newswire RSS"]
+        S5["LinkedIn Sales Navigator"]
+    end
+
+    subgraph "AI / LLM Services"
+        S6["Anthropic Claude API"]
+        S7["Google Gemini API -- Fallback"]
+    end
+
+    subgraph "Compute & Orchestration"
+        S8["CRON Scheduler"]
+        S9["Python Runtime"]
+        S10["Task Queue"]
+    end
+
+    subgraph "Storage & CRM"
+        S11["PostgreSQL / MongoDB"]
+        S12["HubSpot / Salesforce CRM"]
+        S13["Cloud Object Storage -- S3 / GCS"]
+    end
+
+    subgraph "Notification & Output"
+        S14["Slack API"]
+        S15["SendGrid / SES -- Email"]
+        S16["CSV Export Module"]
+    end

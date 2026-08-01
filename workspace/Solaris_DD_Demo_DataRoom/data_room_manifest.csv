@@ -1,0 +1,22 @@
+folder,file,doc_type,synthetic_or_public,owner_visibility,investor_visibility,demo_use
+00_Executive_Summary,dd_summary_for_investors.md,Due diligence summary,Synthetic with public context,Founder approved,All investors,Downloadable investor DD summary
+01_Corporate,company_overview.md,Corporate overview,Synthetic,Founder approved,All investors,Company identity and business model citations
+01_Corporate,cap_table.csv,Capitalization table,Synthetic,Founder only,Gated investors,Tests sensitive-section access control
+01_Corporate,board_minutes_2026-04-15.md,Board minutes,Synthetic,Founder approved,Gated investors,Tests governance/risk citations
+02_Financials,audited_financials_2025.md,Audited financial summary,Synthetic,Founder approved,All investors,Financial citations
+02_Financials,revenue_pipeline.csv,Pipeline export,Synthetic,Founder approved,Gated investors,Revenue concentration Q&A
+02_Financials,budget_forecast_2026_2028.csv,Forecast model,Synthetic,Founder approved,Gated investors,Forecast and burn-rate Q&A
+03_Regulatory,regulatory_strategy_510k.md,Regulatory strategy,Synthetic with public FDA context,Founder approved,All investors,510(k) pathway and risk citations
+03_Regulatory,part_11_controls.md,Compliance controls,Synthetic with public FDA context,Founder approved,All investors,21 CFR Part 11 Q&A
+04_Clinical,clinical_evidence_summary.md,Clinical evidence summary,Synthetic,Founder approved,All investors,Clinical performance citations
+04_Clinical,pivotal_study_dataset.csv,Study dataset,Synthetic,Founder approved,Gated investors,Structured data retrieval demo
+05_IP,patent_portfolio.md,IP portfolio,Synthetic,Founder approved,All investors,Patent and freedom-to-operate Q&A
+06_Commercial,customer_agreements_summary.md,Commercial contracts summary,Synthetic,Founder approved,Gated investors,Customer and contract risk Q&A
+06_Commercial,press_releases.md,Press release archive,Synthetic,Founder approved,All investors,Entity disambiguation and source testing
+07_Security_Compliance,security_compliance_packet.md,Security packet,Synthetic with compliance references,Founder approved,All investors,HIPAA/SOC 2/FedRAMP-aligned controls demo
+08_Investor_QA,answer_policy.md,Answer policy,Synthetic,Founder approved,Founder only,Policy and access-control demo
+08_Investor_QA,investor_activity_export.csv,Investor engagement export,Synthetic,Founder approved,Founder only,Founder dashboard warm-lead demo
+08_Investor_QA,sample_investor_questions.md,Q&A prompts,Synthetic,Founder approved,Founder only,Video script prompts
+09_Source_References,public_market_sources.md,Public source bibliography,Public references,Founder approved,All investors,External citation grounding
+09_Source_References,references.csv,Reference index,Public references,Founder approved,All investors,Citation index
+

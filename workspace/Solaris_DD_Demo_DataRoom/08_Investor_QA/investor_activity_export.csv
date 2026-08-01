@@ -1,0 +1,7 @@
+investor_name,firm,access_level,questions_asked,documents_opened,citations_clicked,summary_downloaded,last_active,warm_lead_score,next_best_action
+Amara Singh,Northstar Growth Partners,Gated investor,18,12,31,Yes,2026-05-26 16:22,92,Offer CEO meeting and regulatory deep dive
+Daniel Reed,Harborline Ventures,General investor,7,5,9,Yes,2026-05-25 11:08,64,Request NDA upgrade to gated access
+Sophia Klein,MedVector Strategic,Gated investor,24,15,47,Yes,2026-05-26 18:40,96,Schedule strategic partnership call
+Marcus Hill,Atlas Angels,General investor,3,2,2,No,2026-05-24 09:15,31,Send DD summary reminder
+Elena Torres,Keiretsu Forum,Gated investor,13,9,20,Yes,2026-05-26 13:02,81,Offer clinical advisory meeting
+

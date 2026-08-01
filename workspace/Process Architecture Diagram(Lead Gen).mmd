@@ -1,0 +1,43 @@
+ graph TD
+    %% Core Infrastructure
+    subgraph GCP ["Google Cloud Platform"]
+        CR[Cloud Run Container]
+        DB[(Cloud SQL PostgreSQL)]
+    end
+    
+    %% External APIs & Sources
+    Apollo([Apollo API])
+    Anthropic([Anthropic Claude API])
+    Resend([Resend Email API])
+    ExternalWeb([FDA & ClinicalTrials Web])
+    
+    %% Internal Services
+    Scheduler((Node Cron))
+    ScraperSvc[6-Hour Intel Scrapers<br>FDA / Clinical Trials]
+    Discovery[Lead Discovery Service<br>10:00 AM EST]
+    Scoring[AI Scoring Service]
+    Outreach[Outreach Drafting Service]
+    EmailSvc[Email Reporting Service]
+
+    %% Flow - Background Scrapers
+    Scheduler -->|Every 6 Hours| ScraperSvc
+    ScraperSvc <-->|Scrape 510ks & Trials| ExternalWeb
+    ScraperSvc -->|Save Triggers| DB
+
+    %% Flow - Daily Pipeline
+    Scheduler -->|Triggers at 10:00 AM| Discovery
+    Discovery <-->|Fetch/Enrich Leads| Apollo
+    Discovery -->|Raw Leads| Scoring
+    Scoring <-->|Evaluate ICP Fit & Triggers| Anthropic
+    Scoring -->|Save Scores| DB
+    Scoring -->|HOT Leads| Outreach
+    Outreach <-->|Draft 3-Step Sequence| Anthropic
+    Outreach -->|Save Drafts| DB
+    Outreach --> EmailSvc
+    EmailSvc <-->|Send Daily HTML Report| Resend
+    
+    %% Styling
+    classDef gcp fill:#e3f2fd,stroke:#1976d2,stroke-width:2px;
+    classDef api fill:#fce4ec,stroke:#c2185b,stroke-width:2px;
+    class GCP gcp;
+    class Apollo,Anthropic,Resend,ExternalWeb api;

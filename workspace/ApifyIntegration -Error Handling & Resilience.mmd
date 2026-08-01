@@ -1,0 +1,18 @@
+flowchart TD
+    A[Webhook Received] --> B{Valid Signature?}
+    B -->|No| C[Log & Reject 401]
+    B -->|Yes| D{Event Type?}
+    D -->|SUCCEEDED| E[Process Dataset]
+    D -->|FAILED| F[Log Failure]
+    D -->|ABORTED| F
+    D -->|TIMED_OUT| G[Schedule Retry]
+    
+    E --> H{Already Processed?}
+    H -->|Yes runId exists| I[Skip — Idempotent]
+    H -->|No| J[Download Dataset Items]
+    J --> K{Parse Success?}
+    K -->|Yes| L[Save to DB + Publish Event]
+    K -->|No| M[Log to Dead Letter Queue]
+    
+    F --> N[Alert via Winston]
+    G --> O[Re-trigger Actor with backoff]

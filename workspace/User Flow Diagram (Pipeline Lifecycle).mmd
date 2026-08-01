@@ -1,0 +1,46 @@
+sequenceDiagram
+    autonumber
+    participant Cron as Job Scheduler
+    participant Web as Web (FDA/Trials)
+    participant Apollo as Apollo API
+    participant DB as Cloud SQL
+    participant AI as Anthropic Claude
+    participant Resend as Email Service
+    participant User as End User (Inbox)
+
+    %% 6-Hour Background Loop
+    rect rgb(240, 248, 255)
+        Note right of Cron: Runs continuously every 6 hours (Background Intel)
+        Cron->>Web: Scrape FDA 510(k) clearances & Clinical Trials
+        Web-->>Cron: Return parsed public data
+        Cron->>DB: Save detected company Triggers
+    end
+
+    %% Daily 10 AM Pipeline
+    rect rgb(255, 250, 240)
+        Note right of Cron: Runs daily at exactly 10:00 AM EST
+        Cron->>Apollo: Fetch new companies & contacts (Leads)
+        Apollo-->>Cron: Returns fresh lead data
+        Cron->>DB: Save raw leads to Database
+        
+        Cron->>DB: Fetch associated Triggers for leads
+        DB-->>Cron: Return Triggers (from 6-hr scrapers)
+        
+        Cron->>AI: Send leads + Triggers for ICP scoring
+        AI-->>Cron: Returns 0-100 Score + Reasoning
+        Cron->>DB: Update leads with AI Scores
+        
+        loop For each HOT Lead (Score >= 80)
+            Cron->>AI: Generate highly personalized 3-step email sequence
+            AI-->>Cron: Returns custom Draft 1, 2, and 3
+            Cron->>DB: Save outreach sequence as DRAFT
+        end
+        
+        Cron->>DB: Query daily statistics (Total, Hot, Triggers)
+        DB-->>Cron: Return stats
+        
+        Cron->>Resend: Compile HTML Report & dispatch to user
+        Resend-->>User: Delivers "IntraIntel Daily Lead Intel" email
+    end
+    
+    User->>User: Reviews report & copies outreach drafts to send
