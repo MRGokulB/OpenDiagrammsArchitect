@@ -1,183 +1,169 @@
-# OpenDiagrammsArchitect 📐✨
+# OpenDiagrammsArchitect
 
-[![Next.js](https://img.shields.io/badge/Next.js-16.2.4-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.2.4-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
-[![Mermaid](https://img.shields.io/badge/Mermaid.js-11.14.0-ff3670?style=for-the-badge)](https://mermaid.js.org/)
-[![Groq AI](https://img.shields.io/badge/Groq_AI-Fast_Inference-f55036?style=for-the-badge)](https://groq.com/)
-[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)](https://www.docker.com/)
+[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg?style=flat-square)](package.json)
+[![Next.js](https://img.shields.io/badge/Next.js-16.2.4-000000.svg?style=flat-square&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.2.4-20232A.svg?style=flat-square&logo=react&logoColor=61DAFB)](https://react.dev/)
+[![Mermaid](https://img.shields.io/badge/Mermaid-11.14.0-FF3670.svg?style=flat-square&logo=mermaid&logoColor=white)](https://mermaid.js.org/)
+[![Groq SDK](https://img.shields.io/badge/Groq-API-F55036.svg?style=flat-square)](https://groq.com/)
+[![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED.svg?style=flat-square&logo=docker&logoColor=white)](Dockerfile)
+[![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
 
-**OpenDiagrammsArchitect** is a modern, privacy-focused, AI-assisted Mermaid diagramming workspace and visual studio. It combines real-time live preview, multi-tab editing, high-resolution multi-format exports, and AI diagram copilot capabilities into a unified desktop-grade web application.
-
----
-
-## 🌟 Key Features
-
-### 🖥️ High-Performance Visual Editor & Preview
-- **CodeMirror 6 Editor**: Syntax highlighting, search/replace, line numbers, and fast editing.
-- **Sub-second Live Preview**: Real-time rendering with automatic debounce and syntax error boundaries.
-- **Interactive Canvas**: Smooth infinite pan, zoom, pinch (`react-zoom-pan-pinch`), reset, and fit-to-screen controls.
-- **Visual Snippet Palette**: One-click insertion of 14 node shapes, 12 connection styles, subgraphs, and color schemes.
-
-### 📑 Multi-Tab Workspace & State Management
-- **Concurrent Tabs**: Work on up to 20 diagrams simultaneously.
-- **Per-Tab Undo / Redo**: 50-step deep history stack tracked per individual diagram.
-- **Offline Persistence**: Automatic debounced `localStorage` saving so progress is never lost across sessions.
-- **Filesystem Workspace**: Direct file management (`.mmd`) via secure local API with directory traversal guards.
-
-### 🤖 Built-in Groq AI Copilot
-- **4 AI Modes**:
-  - `Generate`: Transform natural language architecture descriptions into structured Mermaid diagrams.
-  - `Expand`: Add database layers, authentication flows, error handling, microservices, or caching to existing diagrams.
-  - `Fix`: Automatically diagnose and fix Mermaid syntax errors with context-aware prompt rewriting.
-  - `Explain`: Generate step-by-step architectural explanations and system flow breakdowns.
-- **Client-Side API Key Control**: Your Groq API key is stored locally in your browser and never saved to external servers.
-
-### 📤 Multi-Format High-DPI Export
-- **PNG**: 2× high-DPI canvas rasterization with computed CSS styling and `<foreignObject>` HTML label conversion.
-- **SVG**: Clean, standalone vector export with inlined styling.
-- **PDF**: Vector-grade PDF generation powered by `jspdf`.
-- **Raw Mermaid (`.mmd`)**: Direct download and one-click workspace filesystem saving.
+An enterprise-grade, privacy-first diagramming workspace and visual architecture studio powered by Mermaid.js and Groq LLM inference. Designed for software architects, systems engineers, and technical leaders who require rapid, deterministic system modeling, real-time visual feedback, and zero data leakage.
 
 ---
 
-## 🚀 Quick Start
+## Architecture & Core Capabilities
+
+### 1. High-Fidelity Rendering & Canvas Engine
+* **CodeMirror 6 Editor**: Syntax highlighting, search/replace, line numbers, and fast editing.
+* **Sub-Second Live Preview**: Automatic debouncing with isolated error boundaries prevents crashes on syntax errors.
+* **Viewport Controls**: Infinite pan, zoom, pinch (`react-zoom-pan-pinch`), reset, and fit-to-screen controls.
+* **Syntax Snippets**: Direct insertion of 14 standard node geometries, 12 connection styles, subgraphs, and color schemes.
+
+### 2. Multi-Tab Workspace & State Engine
+* **Concurrent Workspaces**: Manage up to 20 isolated diagram tabs in a single session.
+* **Deep History Management**: Independent 50-step undo/redo stack maintained per active tab.
+* **Zero-Loss Persistence**: Debounced `localStorage` synchronization preserves active states across browser refreshes.
+* **Local Filesystem Integration**: Direct filesystem CRUD operations over the `workspace/` storage directory with path traversal security controls.
+
+### 3. AI Architecture Copilot
+* **Inference Modes**:
+  * `Generate`: Transforms technical specifications and system prompts into structured Mermaid diagrams.
+  * `Expand`: Augments existing architectures with database layers, auth flows, resilience patterns, or caching strategies.
+  * `Fix`: Analyzes Mermaid compiler error traces and automatically resolves syntax errors in real time.
+  * `Explain`: Generates step-by-step structural documentation and data flow breakdowns.
+* **Client-Isolated Credentials**: Groq API keys remain strictly on the client side via browser storage and are never stored or logged on intermediary servers.
+
+### 4. Deterministic Export Pipeline
+* **PNG Export**: High-DPI (2x scale) rasterization via canvas with inlined computed styles and `<foreignObject>` conversion.
+* **Vector SVG**: Clean, standalone SVG files with self-contained styling for technical documentation.
+* **Vector PDF**: High-resolution PDF generation via `jspdf`.
+* **Raw Mermaid Source**: Direct `.mmd` file export and one-click workspace synchronization.
+
+---
+
+## Supported Diagram Specifications
+
+| Type | Mermaid Directive | Use Case |
+| :--- | :--- | :--- |
+| **Flowchart** | `flowchart TD` / `LR` | System workflows, logic branches, and stateful decisions |
+| **Sequence Diagram** | `sequenceDiagram` | Synchronous / asynchronous API and service communications |
+| **Class Diagram** | `classDiagram` | Domain models, inheritance structures, and interface definitions |
+| **Entity Relationship** | `erDiagram` | Relational schemas, cardinalities, and database entities |
+| **State Machine** | `stateDiagram-v2` | Finite state transitions and lifecycle monitoring |
+| **Gantt Chart** | `gantt` | Project timelines, milestones, and resource scheduling |
+| **Mindmap** | `mindmap` | Hierarchical architecture mapping and domain breakdown |
+| **Git Graph** | `gitGraph` | Branching strategies, release lifecycles, and merge flows |
+| **Pie Chart** | `pie` | Resource utilization and architectural component breakdown |
+
+---
+
+## Getting Started
 
 ### Prerequisites
-- **Node.js**: `20.x` or higher
-- **npm** / **pnpm** / **yarn**
+* **Node.js**: `v20.0.0` or higher
+* **npm** / **yarn** / **pnpm**
 
-### Installation
+### Local Installation
 
-1. Clone the repository:
 ```bash
+# Clone the repository
 git clone https://github.com/MRGokulB/OpenDiagrammsArchitect.git
 cd OpenDiagrammsArchitect
-```
 
-2. Install dependencies:
-```bash
+# Install dependencies
 npm install
-```
 
-3. Start the development server:
-```bash
+# Start the development server (runs on port 3001)
 npm run dev
 ```
 
-4. Open your browser at:
-```text
-http://localhost:3001
-```
+Navigate to `http://localhost:3001` in your browser.
 
 ---
 
-## 🐳 Docker Deployment
+## Docker Deployment
 
-Run the entire application in an isolated Docker container with local volume mounting for diagrams:
+The application is containerized using Alpine Node.js with automated host volume mapping for diagrams:
 
 ```bash
+# Build and start container in detached mode
 docker compose up -d --build
-```
 
-The app will be accessible at `http://localhost:3001` (or your configured `APP_PORT`). All saved workspace files sync directly to your local `./workspace` directory.
+# View container logs
+docker compose logs -f
 
-To stop the container:
-```bash
+# Stop and remove containers
 docker compose down
 ```
 
+All diagrams created and saved via the workspace API are mapped directly to the local `./workspace` folder on your host machine.
+
 ---
 
-## ⌨️ Keyboard Shortcuts
+## Keyboard Shortcuts
 
-| Shortcut | Action |
+| Shortcut | Function |
 | :--- | :--- |
 | <kbd>Ctrl</kbd> + <kbd>S</kbd> | Save diagram to workspace |
-| <kbd>Ctrl</kbd> + <kbd>T</kbd> | Open new tab |
-| <kbd>Ctrl</kbd> + <kbd>W</kbd> | Close active tab |
-| <kbd>Ctrl</kbd> + <kbd>Tab</kbd> | Switch to next tab |
-| <kbd>Ctrl</kbd> + <kbd>Z</kbd> | Undo |
-| <kbd>Ctrl</kbd> + <kbd>Y</kbd> | Redo |
+| <kbd>Ctrl</kbd> + <kbd>T</kbd> | Create new workspace tab |
+| <kbd>Ctrl</kbd> + <kbd>W</kbd> | Close active workspace tab |
+| <kbd>Ctrl</kbd> + <kbd>Tab</kbd> | Cycle to next tab |
+| <kbd>Ctrl</kbd> + <kbd>Z</kbd> | Undo last change |
+| <kbd>Ctrl</kbd> + <kbd>Y</kbd> | Redo change |
 | <kbd>Ctrl</kbd> + <kbd>D</kbd> | Copy diagram code to clipboard |
-| <kbd>Ctrl</kbd> + <kbd>\</kbd> | Toggle side panels (focus preview) |
-| <kbd>F11</kbd> | Toggle true fullscreen canvas |
-| <kbd>?</kbd> | Open keyboard shortcuts modal |
-| <kbd>Esc</kbd> | Close active modal |
+| <kbd>Ctrl</kbd> + <kbd>\</kbd> | Toggle editor / preview focus view |
+| <kbd>F11</kbd> | Fullscreen canvas mode |
+| <kbd>?</kbd> | Display keyboard shortcuts modal |
+| <kbd>Esc</kbd> | Dismiss active modal or overlay |
 
 ---
 
-## 📊 Supported Diagram Types
-
-- **Flowcharts** (`flowchart TD / LR`)
-- **Sequence Diagrams** (`sequenceDiagram`)
-- **Class Diagrams** (`classDiagram`)
-- **Entity Relationship Diagrams** (`erDiagram`)
-- **State Diagrams** (`stateDiagram-v2`)
-- **Gantt Charts** (`gantt`)
-- **Mindmaps** (`mindmap`)
-- **Pie Charts** (`pie title ...`)
-- **Git Graphs** (`gitGraph`)
-
----
-
-## 🏗️ Project Architecture
+## Project Structure
 
 ```text
-├── public/                  # Static assets & icons
+OpenDiagrammsArchitect/
 ├── src/
 │   ├── app/
 │   │   ├── api/
-│   │   │   ├── files/       # Workspace file CRUD API (GET, POST, PUT, PATCH, DELETE)
-│   │   │   └── groq/        # Groq AI completion proxy with retry & rate limiting
-│   │   ├── globals.css      # Design system, themes & animations
-│   │   ├── layout.js        # Root application layout
-│   │   └── page.js          # Core application shell & responsive grid layout
+│   │   │   ├── files/          # Workspace filesystem CRUD endpoints
+│   │   │   └── groq/           # Groq AI completion proxy with retry logic
+│   │   ├── globals.css         # Design system, layout tokens, and themes
+│   │   ├── layout.js           # Next.js App Router root layout
+│   │   └── page.js             # Core editor and preview viewport layout
 │   ├── components/
-│   │   ├── AIPanel.js       # AI prompt interface, history & mode selection
-│   │   ├── EditorPanel.js   # CodeMirror wrapper with Shape/Flow toolbar
-│   │   ├── ExportMenu.js    # PNG, SVG, PDF, MMD export modal
-│   │   ├── MermaidEditor.js # CodeMirror integration
-│   │   ├── MermaidPreview.js# Live SVG rendering engine
-│   │   ├── ModalManager.js  # Template gallery, shortcuts & workspace modal
-│   │   ├── PreviewPanel.js  # Pan/zoom canvas & viewport tools
-│   │   ├── TabBar.js        # Tab management bar with dirty state indicator
-│   │   └── TopNavigation.js # Header bar with file actions & theme switcher
-│   ├── constants/           # Diagram templates, presets, shortcuts & shapes
+│   │   ├── AIPanel.js          # AI prompt control, modes, and history
+│   │   ├── EditorPanel.js      # CodeMirror wrapper and toolbars
+│   │   ├── ExportMenu.js       # Multi-format export dialog (PNG, SVG, PDF, MMD)
+│   │   ├── MermaidEditor.js    # CodeMirror 6 engine integration
+│   │   ├── MermaidPreview.js   # Dynamic SVG rendering engine
+│   │   ├── ModalManager.js     # Template library and shortcut dialogs
+│   │   ├── PreviewPanel.js     # Pan/zoom canvas and display controls
+│   │   ├── TabBar.js           # Tab management and dirty state tracking
+│   │   └── TopNavigation.js    # Header controls, presets, and actions
+│   ├── constants/              # Diagram templates, presets, and shortcuts
 │   ├── context/
-│   │   └── EditorContext.js # Centralized state reducer & localStorage sync
-│   ├── hooks/               # Custom hooks (shortcuts, auto-save, fullscreen)
+│   │   └── EditorContext.js    # Centralized state reducer & localStorage sync
+│   ├── hooks/                  # Custom lifecycle and shortcut hooks
 │   └── utils/
-│       └── exportUtils.js   # SVG-to-Canvas, DOM style inlining & rasterization
-├── workspace/               # Local diagram storage directory
-├── Dockerfile               # Production container definition
-├── docker-compose.yml       # Container orchestration & volume mapping
-└── package.json             # Project dependencies & scripts
+│       └── exportUtils.js      # Style computation, SVG-to-Canvas, and export handlers
+├── workspace/                  # Local and container volume-mounted diagram storage
+├── Dockerfile                  # Production container definition
+├── docker-compose.yml          # Container service definition
+└── package.json                # Dependencies and project scripts
 ```
 
 ---
 
-## ⚙️ Configuration & Environment
+## Configuration & Environment
 
 | Variable | Description | Default |
 | :--- | :--- | :--- |
-| `APP_PORT` | Port for Docker / production container | `3001` |
-| `NODE_ENV` | Application environment mode | `production` / `development` |
-
-> **Note:** The Groq API key is managed directly within the UI settings and stored in browser `localStorage`, eliminating the need for server-side secret management.
+| `APP_PORT` | Port exposed by Docker / production server | `3001` |
+| `NODE_ENV` | Application environment (`production` / `development`) | `production` |
 
 ---
 
-## 🛠️ Development & Contributing
+## License
 
-### Available Scripts
-
-- `npm run dev` — Launches development server on port 3001.
-- `npm run build` — Compiles production Next.js build.
-- `npm run start` — Runs the compiled production server.
-- `npm run lint` — Runs ESLint checks.
-
----
-
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
+This project is open source and available under the [MIT License](LICENSE).
